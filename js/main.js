@@ -13,15 +13,16 @@ for (let intentos = 0; intentos <= 3; intentos++) {
 
     if (password === 1234) {
 
-        function avgCalls() {
-            avgLostCalls = (lostCalls * 100) / totalCalls;
-            avgAnsweredCalls = (answeredCalls * 100) / totalCalls;
+        function avgCalls(callType) {
+            let avg = (callType *100) / totalCalls;
+            return avg;
         }
 
+        avgLostCalls = avgCalls(lostCalls);
+        avgAnsweredtCalls = avgCalls(answeredCalls);
+
         timeWait = (queuedCalls * avgWaitingCalls) / 60
-
-
-        avgCalls()
+        
 
         document.getElementById("totalCalls").innerHTML = totalCalls;
         document.getElementById("lostCalls").innerHTML = lostCalls;
@@ -29,7 +30,7 @@ for (let intentos = 0; intentos <= 3; intentos++) {
         document.getElementById("queuedCalls").innerHTML = queuedCalls;
         document.getElementById("timeWait").innerHTML = "Tiempo de espera estimado " + timeWait + " minutos";
         document.getElementById("avgLostCalls").innerHTML = avgLostCalls.toFixed(2) + "%";
-        document.getElementById("avgAnsweredCalls").innerHTML = avgAnsweredCalls.toFixed(2) + "%";
+        document.getElementById("avgAnsweredCalls").innerHTML = avgAnsweredtCalls.toFixed(2) + "%";
         break
     }
     else {
