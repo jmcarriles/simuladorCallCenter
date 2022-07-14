@@ -52,7 +52,7 @@ for (let intentos = 0; intentos <= 3; intentos++) {
 }
 
 function encontrarAgente() {
-    idAgente= parseInt(prompt('Por favor ingrese su numero de legajo'))
+    idAgente = parseInt(prompt('Por favor ingrese su numero de legajo'))
     const nombreAgente = agentes.find(x => x.id === idAgente)
 
     if (nombreAgente === undefined) {
@@ -63,4 +63,18 @@ function encontrarAgente() {
     }
 }
 
+function agregarAgente() {
+    const nuevoAgente = { id: parseInt(prompt('Ingrese el numero de legajo')), name: prompt('Ingrese el nombre del agente') };
+    const index = agentes.findIndex(object => object.id === nuevoAgente.id);
+
+    if (index === -1) {
+        agentes.push(nuevoAgente);
+        alert('El agente se agrego al sistema')
+    }
+    else{
+        alert('El legajo ya existe')
+    }
+    
+    
+}
 
