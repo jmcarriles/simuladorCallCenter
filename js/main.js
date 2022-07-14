@@ -9,14 +9,6 @@ let avgAnsweredtCalls;
 
 const agentes = [{ id: 1111, name: 'Juan Pablo Roma' }, { id: 2222, name: 'Mariana Sasiana' }, { id: 3333, name: 'Rosario Martinez' }, { id: 4444, name: 'Leonardo Romero' }, { id: 5555, name: 'Susana Miro' }, { id: 6666, name: 'Esteban Somosa' }];
 
-
-
-for (let intentos = 0; intentos <= 3; intentos++) {
-
-    let password = parseInt(prompt('Ingrese el password'));
-
-    if (password === 1234) {
-
         function avgCalls(callType) {
             let avg = (callType * 100) / totalCalls;
             return avg;
@@ -24,7 +16,6 @@ for (let intentos = 0; intentos <= 3; intentos++) {
 
         avgLostCalls = avgCalls(lostCalls);
         avgAnsweredtCalls = avgCalls(answeredCalls);
-
         timeWait = (queuedCalls * avgWaitingCalls) / 60
 
 
@@ -35,21 +26,7 @@ for (let intentos = 0; intentos <= 3; intentos++) {
         document.getElementById("timeWait").innerHTML = "Tiempo de espera estimado " + timeWait + " minutos";
         document.getElementById("avgLostCalls").innerHTML = avgLostCalls.toFixed(2) + "%";
         document.getElementById("avgAnsweredCalls").innerHTML = avgAnsweredtCalls.toFixed(2) + "%";
-        break
-    }
-    else {
 
-        alert('Password incorrecto, ingreselo nuevamente.')
-
-    }
-
-    if (intentos === 3) {
-
-        alert('No autorizado')
-        window.location.href = "noautorizado.html";
-    }
-
-}
 
 function encontrarAgente() {
     idAgente = parseInt(prompt('Por favor ingrese su numero de legajo'))
