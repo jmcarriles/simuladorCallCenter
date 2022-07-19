@@ -8,24 +8,26 @@ let avgLostCalls;
 let avgAnsweredtCalls;
 
 //Funcion para crear el objeto Agente
-function Agente(id, name) {
+function Agente(id, name, departamento) {
     this.id = id;
     this.name = name;
+    this.departamento = departamento;
 }
 
 //Matriz de objetos literales agentes
-const agentes = [
-    { id: 1111, name: 'Juan Pablo Roma' },
-    { id: 2222, name: 'Mariana Sasiana' },
-    { id: 3333, name: 'Rosario Martinez' },
-    { id: 4444, name: 'Leonardo Romero' },
-    { id: 5555, name: 'Susana Miro' },
-    { id: 6666, name: 'Esteban Somosa' }
-];
+const agentes = [];
 
 //Llamado a la funcion para crear un nuevo objeto agente e insertarlo en la matriz
-const Agente1 = new Agente(7777, 'Pedro Ronco');
-agentes.push(Agente1);
+const Agente1 = new Agente(1111, 'Juan Pablo Roma');
+const Agente2 = new Agente(2222, 'Mariana Sasiana');
+const Agente3 = new Agente(3333, 'Rosario Martinez');
+const Agente4 = new Agente(4444, 'Leonardo Romero');
+const Agente5 = new Agente(5555, 'Susana Miro');
+const Agente6 = new Agente(6666, 'Esteban Somosa');
+const Agente7 = new Agente(7777, 'Pedro Ronco');
+
+agentes.push(Agente1, Agente2, Agente3, Agente4, Agente5, Agente6, Agente7);
+
 
 
 //Funcion para calcular promedios de llamadas
@@ -48,33 +50,52 @@ function encontrarAgente() {
         return alert('No existe el agente solicitado')
     }
     else {
-        return alert(nombreAgente.name);
+        return alert(nombreAgente.name + ' ' + nombreAgente.departamento );
     }
 }
 
 //Funcion para agregar via web un objeto agente, que analiza si el ID del agente ya existe y en el caso de que no exista lo inserta.
 function agregarAgenteWeb() {
-    const nuevoAgente = { id: parseInt(prompt('Ingrese el numero de legajo')), name: prompt('Ingrese el nombre del agente') };
+    const nuevoAgente = { id: parseInt(prompt('Ingrese el numero de legajo')), name: prompt('Ingrese el nombre del agente'), departamento: prompt('Ingrese el departamento')};
     const index = agentes.findIndex(object => object.id === nuevoAgente.id);
 
-    if (nuevoAgente.id === NaN || nuevoAgente.name === null || nuevoAgente.name === '') {
+    if (nuevoAgente.name === null || nuevoAgente.name === '' || nuevoAgente.id === null || nuevoAgente.id === '' ) {
         alert('Legajo o Nombre Incorrecto')
 
     }
+
+    else if (isNaN(nuevoAgente.id) === true){
+        alert('El numero de legajo puede ser solo numerico')
+    }
+
     else {
 
         if (index === -1) {
             agentes.push(nuevoAgente);
             alert('El agente se agrego al sistema')
-            console.log(agentes)
         }
         else {
             alert('El legajo ya existe')
         }
 
-
     }
 }
+
+//Funcion que busca el array el objeto que tenga el id ingresado y le permite modificar / agregar el parametro 'Departamento' 
+function agregarDepartamento(){
+    const idBuscado = { id: parseInt(prompt('Ingrese el numero de legajo de la persona que quiere modificar el departamento')) }
+    const index = agentes.findIndex(object => object.id === idBuscado.id);
+
+    if (index === -1) {
+        alert('Legajo Inexistente')
+    }
+
+    else {
+        agentes[index].departamento = (prompt('Por Favor ingrese el Departamento'))
+        alert('Departamento modificado')
+    }
+}
+
 
 document.getElementById("totalCalls").innerHTML = totalCalls;
 document.getElementById("lostCalls").innerHTML = lostCalls;
@@ -83,3 +104,6 @@ document.getElementById("queuedCalls").innerHTML = queuedCalls;
 document.getElementById("timeWait").innerHTML = "Tiempo de espera estimado " + timeWait + " minutos";
 document.getElementById("avgLostCalls").innerHTML = avgLostCalls.toFixed(2) + "%";
 document.getElementById("avgAnsweredCalls").innerHTML = avgAnsweredtCalls.toFixed(2) + "%";
+
+let x = isNaN(1)
+console.log(x)
