@@ -105,5 +105,3 @@ document.getElementById("timeWait").innerHTML = "Tiempo de espera estimado " + t
 document.getElementById("avgLostCalls").innerHTML = avgLostCalls.toFixed(2) + "%";
 document.getElementById("avgAnsweredCalls").innerHTML = avgAnsweredtCalls.toFixed(2) + "%";
 
-let x = isNaN(1)
-console.log(x)
