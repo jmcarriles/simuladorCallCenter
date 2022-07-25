@@ -1,11 +1,30 @@
-let totalCalls = 150;
-let lostCalls = 34;
-let answeredCalls = 116;
-let queuedCalls = 12;
+let totalCalls, lostCalls, answeredCalls, timeWait, avgLostCalls, avgAnsweredtCalls, queuedCalls;
 let avgWaitingCalls = 120;
-let timeWait;
-let avgLostCalls;
-let avgAnsweredtCalls;
+
+
+
+//Funcion validar llamadas
+
+function calcularLlamadas() {
+
+    answeredCalls = parseInt(prompt("Ingrese la cantidad de llamadas atendidas: "));
+    lostCalls = parseInt(prompt("Ingrese la cantidad de llamadas perdidas: "));
+    queuedCalls = parseInt(prompt("Ingrese la cantidad de llamadas en cola"));
+    alert('El tiempo promedio de una llamada en espera es de 120 segundos');
+    totalCalls = answeredCalls + lostCalls;
+    avgLostCalls = avgCalls(lostCalls);
+    avgAnsweredtCalls = avgCalls(answeredCalls);
+    timeWait = (queuedCalls * avgWaitingCalls) / 60
+    document.getElementById("totalCalls").innerHTML = totalCalls;
+    document.getElementById("lostCalls").innerHTML = lostCalls;
+    document.getElementById("answeredCalls").innerHTML = answeredCalls;
+    document.getElementById("avgLostCalls").innerHTML = avgLostCalls.toFixed(2) + "%";
+    document.getElementById("avgAnsweredCalls").innerHTML = avgAnsweredtCalls.toFixed(2) + "%";
+    document.getElementById("queuedCalls").innerHTML = queuedCalls;
+    document.getElementById("timeWait").innerHTML = "Tiempo de espera estimado " + timeWait + " minutos";
+    return totalCalls, answeredCalls, lostCalls;
+
+}
 
 //Funcion para crear el objeto Agente
 function Agente(id, name, departamento) {
@@ -16,6 +35,7 @@ function Agente(id, name, departamento) {
 
 //Matriz de objetos literales agentes
 const agentes = [];
+console.log()
 
 //Llamado a la funcion para crear un nuevo objeto agente e insertarlo en la matriz
 const Agente1 = new Agente(1111, 'Juan Pablo Roma');
@@ -37,9 +57,7 @@ function avgCalls(callType) {
 }
 
 //Calculos de promedios de llamadas
-avgLostCalls = avgCalls(lostCalls);
-avgAnsweredtCalls = avgCalls(answeredCalls);
-timeWait = (queuedCalls * avgWaitingCalls) / 60
+
 
 //Funcion para encontrar agente por medio de el ID, utilizando la funcion de orden superior find
 function encontrarAgente() {
@@ -50,21 +68,21 @@ function encontrarAgente() {
         return alert('No existe el agente solicitado')
     }
     else {
-        return alert(nombreAgente.name + ' ' + nombreAgente.departamento );
+        return alert(nombreAgente.name + ' ' + nombreAgente.departamento);
     }
 }
 
 //Funcion para agregar via web un objeto agente, que analiza si el ID del agente ya existe y en el caso de que no exista lo inserta.
 function agregarAgenteWeb() {
-    const nuevoAgente = { id: parseInt(prompt('Ingrese el numero de legajo')), name: prompt('Ingrese el nombre del agente'), departamento: prompt('Ingrese el departamento')};
+    const nuevoAgente = { id: parseInt(prompt('Ingrese el numero de legajo')), name: prompt('Ingrese el nombre del agente'), departamento: prompt('Ingrese el departamento') };
     const index = agentes.findIndex(object => object.id === nuevoAgente.id);
 
-    if (nuevoAgente.name === null || nuevoAgente.name === '' || nuevoAgente.id === null || nuevoAgente.id === '' ) {
+    if (nuevoAgente.name === null || nuevoAgente.name === '' || nuevoAgente.id === null || nuevoAgente.id === '') {
         alert('Legajo o Nombre Incorrecto')
 
     }
 
-    else if (isNaN(nuevoAgente.id) === true){
+    else if (isNaN(nuevoAgente.id) === true) {
         alert('El numero de legajo puede ser solo numerico')
     }
 
@@ -82,7 +100,7 @@ function agregarAgenteWeb() {
 }
 
 //Funcion que busca el array el objeto que tenga el id ingresado y le permite modificar / agregar el parametro 'Departamento' 
-function agregarDepartamento(){
+function agregarDepartamento() {
     const idBuscado = { id: parseInt(prompt('Ingrese el numero de legajo de la persona que quiere modificar el departamento')) }
     const index = agentes.findIndex(object => object.id === idBuscado.id);
 
@@ -97,11 +115,7 @@ function agregarDepartamento(){
 }
 
 
-document.getElementById("totalCalls").innerHTML = totalCalls;
-document.getElementById("lostCalls").innerHTML = lostCalls;
-document.getElementById("answeredCalls").innerHTML = answeredCalls;
-document.getElementById("queuedCalls").innerHTML = queuedCalls;
-document.getElementById("timeWait").innerHTML = "Tiempo de espera estimado " + timeWait + " minutos";
-document.getElementById("avgLostCalls").innerHTML = avgLostCalls.toFixed(2) + "%";
-document.getElementById("avgAnsweredCalls").innerHTML = avgAnsweredtCalls.toFixed(2) + "%";
+
+
+
 

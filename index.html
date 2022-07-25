@@ -22,91 +22,103 @@
 
     <body>
         <div class="container">
-            <div class="row row-cols-1">
+            <div class="row row-cols-2">
                 <div class="col">
-                    <div class="card radius-10 border-start border-0 border-3 border-info">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center">
-                                <div>
-                                    <p class="mb-0 text-secondary">Total de llamadas</p>
-                                    <h4 class="my-1 text-info" id="totalCalls"></h4>
-                                    <p class="mb-0 font-13"></p>
-                                </div>
-                                <div class="widgets-icons-2 rounded-circle bg-gradient-scooter text-white ms-auto"><i
-                                        class="fa-regular fa-phone"></i>
+                    <div class="card radius-10 border-start border-0">
+                        <button type="button" class="btn btn-primary" element onclick='calcularLlamadas()'>Calcular llamadas</button>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row row-cols-1">
+                    <div class="col">
+                        <div class="card radius-10 border-start border-0 border-3 border-info">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div>
+                                        <p class="mb-0 text-secondary">Total de llamadas</p>
+                                        <h4 class="my-1 text-info" id="totalCalls"></h4>
+                                        <p class="mb-0 font-13"></p>
+                                    </div>
+                                    <div class="widgets-icons-2 rounded-circle bg-gradient-scooter text-white ms-auto">
+                                        <i class="fa-regular fa-phone"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col">
-                    <div class="card radius-10 border-start border-0 border-3 border-danger">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center">
-                                <div>
-                                    <p class="mb-0 text-secondary">Llamadas Perdidas</p>
-                                    <h4 class="my-1 text-danger" id="lostCalls"></h4>
-                                    <p class="mb-0 font-13" id="avgLostCalls"></p>
-                                </div>
-                                <div class="widgets-icons-2 rounded-circle bg-gradient-bloody text-white ms-auto"><i
-                                        class="fa fa-dollar"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card radius-10 border-start border-0 border-3 border-success">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center">
-                                <div>
-                                    <p class="mb-0 text-secondary">Llamadas Atendidas</p>
-                                    <h4 class="my-1 text-success" id="answeredCalls"></h4>
-                                    <p class="mb-0 font-13" id="avgAnsweredCalls"></p>
-                                </div>
-                                <div class="widgets-icons-2 rounded-circle bg-gradient-ohhappiness text-white ms-auto">
-                                    <i class="fa fa-bar-chart"></i>
+                    <div class="col">
+                        <div class="card radius-10 border-start border-0 border-3 border-danger">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div>
+                                        <p class="mb-0 text-secondary">Llamadas Perdidas</p>
+                                        <h4 class="my-1 text-danger" id="lostCalls"></h4>
+                                        <p class="mb-0 font-13" id="avgLostCalls"></p>
+                                    </div>
+                                    <div class="widgets-icons-2 rounded-circle bg-gradient-bloody text-white ms-auto"><i
+                                            class="fa fa-dollar"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col">
-                    <div class="card radius-10 border-start border-0 border-3 border-warning">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center">
-                                <div>
-                                    <p class="mb-0 text-secondary">Llamadas en cola</p>
-                                    <h4 class="my-1 text-warning" id="queuedCalls"></h4>
-                                    <p class="mb-0 font-13" id="timeWait"></p>
+                    <div class="col">
+                        <div class="card radius-10 border-start border-0 border-3 border-success">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div>
+                                        <p class="mb-0 text-secondary">Llamadas Atendidas</p>
+                                        <h4 class="my-1 text-success" id="answeredCalls"></h4>
+                                        <p class="mb-0 font-13" id="avgAnsweredCalls"></p>
+                                    </div>
+                                    <div
+                                        class="widgets-icons-2 rounded-circle bg-gradient-ohhappiness text-white ms-auto">
+                                        <i class="fa fa-bar-chart"></i>
+                                    </div>
                                 </div>
-                                <div class="widgets-icons-2 rounded-circle bg-gradient-blooker text-white ms-auto"><i
-                                        class="fa fa-users"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card radius-10 border-start border-0 border-3 border-warning">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div>
+                                        <p class="mb-0 text-secondary">Llamadas en cola</p>
+                                        <h4 class="my-1 text-warning" id="queuedCalls"></h4>
+                                        <p class="mb-0 font-13" id="timeWait"></p>
+                                    </div>
+                                    <div class="widgets-icons-2 rounded-circle bg-gradient-blooker text-white ms-auto">
+                                        <i class="fa fa-users"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="container">
-            <div class="row row-cols-2">
-                <div class="col">
-                    <div class="card radius-10 border-start border-0">
-                        <button type="button" class="btn btn-primary" element onclick = 'agregarAgenteWeb()'>Agregar Agente</button>
+            <div class="container">
+                <div class="row row-cols-2">
+                    <div class="col">
+                        <div class="card radius-10 border-start border-0">
+                            <button type="button" class="btn btn-primary" element onclick='agregarAgenteWeb()'>Agregar
+                                Agente</button>
+                        </div>
                     </div>
-                </div>
-                <div class="col">
-                    <div class="card radius-10 border-start border-0">
-                        <button type="button" class="btn btn-primary" element onclick = 'encontrarAgente()'>Consultar nombre de agente por legajo</button>
+                    <div class="col">
+                        <div class="card radius-10 border-start border-0">
+                            <button type="button" class="btn btn-primary" element onclick='encontrarAgente()'>Consultar
+                                nombre de agente por legajo</button>
+                        </div>
                     </div>
-                </div>
-                <div class="col">
-                    <div class="card radius-10 border-start border-0">
-                        <button type="button" class="btn btn-primary" element onclick = 'agregarDepartamento()'>Modificar o agregar departamento</button>
+                    <div class="col">
+                        <div class="card radius-10 border-start border-0">
+                            <button type="button" class="btn btn-primary" element
+                                onclick='agregarDepartamento()'>Modificar o agregar departamento</button>
+                        </div>
                     </div>
-                </div>
-                <script src="./js/main.js"></script>
+                    <script src="./js/main.js"></script>
     </body>
 
 </html>
