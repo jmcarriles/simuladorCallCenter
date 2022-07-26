@@ -18,8 +18,8 @@ function calcularLlamadas() {
     document.getElementById("totalCalls").innerHTML = totalCalls;
     document.getElementById("lostCalls").innerHTML = lostCalls;
     document.getElementById("answeredCalls").innerHTML = answeredCalls;
-    document.getElementById("avgLostCalls").innerHTML = avgLostCalls.toFixed(2) + "%";
-    document.getElementById("avgAnsweredCalls").innerHTML = avgAnsweredtCalls.toFixed(2) + "%";
+    document.getElementById("avgLostCalls").innerHTML = avgLostCalls.toFixed(2) + "% de llamadas perdidas";
+    document.getElementById("avgAnsweredCalls").innerHTML = avgAnsweredtCalls.toFixed(2) + "% de llamadas atendidas";
     document.getElementById("queuedCalls").innerHTML = queuedCalls;
     document.getElementById("timeWait").innerHTML = "Tiempo de espera estimado " + timeWait + " minutos";
     return totalCalls, answeredCalls, lostCalls;
@@ -27,24 +27,26 @@ function calcularLlamadas() {
 }
 
 //Funcion para crear el objeto Agente
-function Agente(id, name, departamento) {
-    this.id = id;
-    this.name = name;
-    this.departamento = departamento;
+class Agente {
+    constructor(id, name, departamento) {
+        this.id = id;
+        this.name = name;
+        this.departamento = departamento;
+    }
 }
 
 //Matriz de objetos literales agentes
 const agentes = [];
-console.log()
+
 
 //Llamado a la funcion para crear un nuevo objeto agente e insertarlo en la matriz
-const Agente1 = new Agente(1111, 'Juan Pablo Roma');
-const Agente2 = new Agente(2222, 'Mariana Sasiana');
-const Agente3 = new Agente(3333, 'Rosario Martinez');
-const Agente4 = new Agente(4444, 'Leonardo Romero');
-const Agente5 = new Agente(5555, 'Susana Miro');
-const Agente6 = new Agente(6666, 'Esteban Somosa');
-const Agente7 = new Agente(7777, 'Pedro Ronco');
+const Agente1 = new Agente(1111, 'Juan Pablo Roma', 'Sistemas');
+const Agente2 = new Agente(2222, 'Mariana Sasiana', 'Sistemas');
+const Agente3 = new Agente(3333, 'Rosario Martinez', 'Sistemas');
+const Agente4 = new Agente(4444, 'Leonardo Romero', 'Sistemas');
+const Agente5 = new Agente(5555, 'Susana Miro', 'Sistemas');
+const Agente6 = new Agente(6666, 'Esteban Somosa', 'Sistemas');
+const Agente7 = new Agente(7777, 'Pedro Ronco', 'Sistemas');
 
 agentes.push(Agente1, Agente2, Agente3, Agente4, Agente5, Agente6, Agente7);
 
@@ -66,6 +68,10 @@ function encontrarAgente() {
 
     if (nombreAgente === undefined) {
         return alert('No existe el agente solicitado')
+    }
+
+    else if (nombreAgente.departamento === undefined) {
+        alert(nombreAgente.name + ' DEPARTAMENTO NO DEFINIDO');
     }
     else {
         return alert(nombreAgente.name + ' ' + nombreAgente.departamento);
@@ -91,6 +97,7 @@ function agregarAgenteWeb() {
         if (index === -1) {
             agentes.push(nuevoAgente);
             alert('El agente se agrego al sistema')
+            actualizarListaAgentes();
         }
         else {
             alert('El legajo ya existe')
@@ -111,11 +118,16 @@ function agregarDepartamento() {
     else {
         agentes[index].departamento = (prompt('Por Favor ingrese el Departamento'))
         alert('Departamento modificado')
+        actualizarListaAgentes();
     }
 }
 
+function actualizarListaAgentes() {
+let listadoAgentes = '';
 
+agentes.forEach((agente) => { 
+    listadoAgentes += `<div><b>Nombre:</b> ${agente.name} /////////////// <b>Departamento:</b> ${agente.departamento}</div>`;
+});
 
-
-
-
+document.getElementById("lista-agentes").innerHTML = listadoAgentes;
+}
