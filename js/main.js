@@ -1,5 +1,12 @@
 let totalCalls, lostCalls, answeredCalls, timeWait, avgLostCalls, avgAnsweredtCalls, queuedCalls;
 let avgWaitingCalls = 120;
+//Evento de click para calcular llamadas
+const btnCalcularLlamadas = document.querySelector('#btnCalcularLlamadas');
+btnCalcularLlamadas.addEventListener('click', (event) => {
+
+    event.preventDefault();
+    calcularLlamadas()
+});
 
 
 
@@ -58,7 +65,13 @@ function avgCalls(callType) {
     return avg;
 }
 
-//Calculos de promedios de llamadas
+//Evento de click para encontrar Agente
+const btnEncrontrarAgente = document.querySelector('#btnEncontrarAgente');
+btnEncrontrarAgente.addEventListener('click', (event) => {
+
+    event.preventDefault();
+    encontrarAgente();
+});
 
 
 //Funcion para encontrar agente por medio de el ID, utilizando la funcion de orden superior find
@@ -77,6 +90,15 @@ function encontrarAgente() {
         return alert(nombreAgente.name + ' ' + nombreAgente.departamento);
     }
 }
+
+//Evento de click para agregar agente
+const btnAgregarAgente = document.querySelector('#btnAgregarAgente');
+btnAgregarAgente.addEventListener('click', (event) => {
+
+    event.preventDefault();
+    agregarAgenteWeb();
+});
+
 
 //Funcion para agregar via web un objeto agente, que analiza si el ID del agente ya existe y en el caso de que no exista lo inserta.
 function agregarAgenteWeb() {
@@ -106,6 +128,15 @@ function agregarAgenteWeb() {
     }
 }
 
+//Evento de click para agregar/modificar departamento
+const btnDepartamento = document.querySelector('#btnDepartamento');
+btnDepartamento.addEventListener('click', (event) => {
+
+    event.preventDefault();
+    agregarDepartamento();
+});
+
+
 //Funcion que busca el array el objeto que tenga el id ingresado y le permite modificar / agregar el parametro 'Departamento' 
 function agregarDepartamento() {
     const idBuscado = { id: parseInt(prompt('Ingrese el numero de legajo de la persona que quiere modificar el departamento')) }
@@ -123,11 +154,29 @@ function agregarDepartamento() {
 }
 
 function actualizarListaAgentes() {
-let listadoAgentes = '';
+    let listadoAgentes = '';
 
-agentes.forEach((agente) => { 
-    listadoAgentes += `<div><b>Nombre:</b> ${agente.name} /////////////// <b>Departamento:</b> ${agente.departamento}</div>`;
+    agentes.forEach((agente) => {
+        listadoAgentes += `<div><b>Nombre:</b> ${agente.name} /////////////// <b>Departamento:</b> ${agente.departamento}</div>`;
+    });
+    document.querySelector('#lista-agentes').innerHTML = listadoAgentes;
+}
+
+
+const btnMostrarOculatar = document.querySelector('#btnMostrarOculatar');
+
+btnMostrarOculatar.addEventListener('click', (event) => {
+    event.preventDefault();
+    const displaylistadoAgentes = document.querySelector('#lista-agentes');
+    actualizarListaAgentes()
+
+    if (displaylistadoAgentes.style.display === 'block') {
+        displaylistadoAgentes.style.display = 'none';
+    } 
+    else {
+        displaylistadoAgentes.style.display = 'block';
+    }
 });
 
-document.getElementById("lista-agentes").innerHTML = listadoAgentes;
-}
+
+
