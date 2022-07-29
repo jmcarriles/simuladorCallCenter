@@ -1,3 +1,4 @@
+const agentes = JSON.parse(localStorage.getItem("agentes-lista")) ?? [];
 let totalCalls, lostCalls, answeredCalls, timeWait, avgLostCalls, avgAnsweredtCalls, queuedCalls;
 let avgWaitingCalls = 120;
 //Evento de click para calcular llamadas
@@ -43,10 +44,11 @@ class Agente {
 }
 
 //Matriz de objetos literales agentes
-const agentes = [];
+
 
 
 //Llamado a la funcion para crear un nuevo objeto agente e insertarlo en la matriz
+/* agentes = [];
 const Agente1 = new Agente(1111, 'Juan Pablo Roma', 'Sistemas');
 const Agente2 = new Agente(2222, 'Mariana Sasiana', 'Sistemas');
 const Agente3 = new Agente(3333, 'Rosario Martinez', 'Sistemas');
@@ -55,7 +57,7 @@ const Agente5 = new Agente(5555, 'Susana Miro', 'Sistemas');
 const Agente6 = new Agente(6666, 'Esteban Somosa', 'Sistemas');
 const Agente7 = new Agente(7777, 'Pedro Ronco', 'Sistemas');
 
-agentes.push(Agente1, Agente2, Agente3, Agente4, Agente5, Agente6, Agente7);
+agentes.push(Agente1, Agente2, Agente3, Agente4, Agente5, Agente6, Agente7); */
 
 
 
@@ -117,9 +119,12 @@ function agregarAgenteWeb() {
     else {
 
         if (index === -1) {
+
             agentes.push(nuevoAgente);
+            localStorage.setItem("agentes-lista", JSON.stringify(agentes));
             alert('El agente se agrego al sistema')
             actualizarListaAgentes();
+            
         }
         else {
             alert('El legajo ya existe')
@@ -149,6 +154,7 @@ function agregarDepartamento() {
     else {
         agentes[index].departamento = (prompt('Por Favor ingrese el Departamento'))
         alert('Departamento modificado')
+        localStorage.setItem("agentes-lista", JSON.stringify(agentes));
         actualizarListaAgentes();
     }
 }
@@ -157,9 +163,11 @@ function actualizarListaAgentes() {
     let listadoAgentes = '';
 
     agentes.forEach((agente) => {
-        listadoAgentes += `<div><b>Nombre:</b> ${agente.name} /////////////// <b>Departamento:</b> ${agente.departamento}</div>`;
+        listadoAgentes += `<div><b>Legajo:</b> ${agente.id} /////////////// <b>Nombre:</b> ${agente.name} /////////////// <b>Departamento:</b> ${agente.departamento}</div>`;
     });
     document.querySelector('#lista-agentes').innerHTML = listadoAgentes;
+    
+    
 }
 
 
