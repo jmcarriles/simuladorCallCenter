@@ -1,3 +1,4 @@
+//Consulta si hay información en el localStorage y se lo asigna a el arreglo agentes o lo define como vacio en el caso de que sea undefined o null
 const agentes = JSON.parse(localStorage.getItem("agentes-lista")) ?? [];
 let totalCalls, lostCalls, answeredCalls, timeWait, avgLostCalls, avgAnsweredtCalls, queuedCalls;
 let avgWaitingCalls = 120;
@@ -42,24 +43,6 @@ class Agente {
         this.departamento = departamento;
     }
 }
-
-//Matriz de objetos literales agentes
-
-
-
-//Llamado a la funcion para crear un nuevo objeto agente e insertarlo en la matriz
-/* agentes = [];
-const Agente1 = new Agente(1111, 'Juan Pablo Roma', 'Sistemas');
-const Agente2 = new Agente(2222, 'Mariana Sasiana', 'Sistemas');
-const Agente3 = new Agente(3333, 'Rosario Martinez', 'Sistemas');
-const Agente4 = new Agente(4444, 'Leonardo Romero', 'Sistemas');
-const Agente5 = new Agente(5555, 'Susana Miro', 'Sistemas');
-const Agente6 = new Agente(6666, 'Esteban Somosa', 'Sistemas');
-const Agente7 = new Agente(7777, 'Pedro Ronco', 'Sistemas');
-
-agentes.push(Agente1, Agente2, Agente3, Agente4, Agente5, Agente6, Agente7); */
-
-
 
 //Funcion para calcular promedios de llamadas
 function avgCalls(callType) {
@@ -159,6 +142,7 @@ function agregarDepartamento() {
     }
 }
 
+//Funcion que escribe en html el array que esta guardado en el LocalStorage y actualiza los cambios.
 function actualizarListaAgentes() {
     let listadoAgentes = '';
 
