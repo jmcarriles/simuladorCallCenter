@@ -3,6 +3,7 @@
 const agentes = JSON.parse(localStorage.getItem("agentes-lista")) ?? [];
 let totalCalls, timeWait, avgLostCalls, avgAnsweredtCalls;
 let avgWaitingCalls = 120;
+
 //Evento de click para calcular llamadas
 const btnCalcularLlamadas = document.querySelector('#btnCalcularLlamadas');
 btnCalcularLlamadas.addEventListener('click', (event) => {
@@ -44,9 +45,9 @@ async function calcularLlamadas() {
     })
 
     //Define en 0 todo parametro no cancelado
-    lostCalls = (lostCalls === undefined) ? lostCalls = 0 : lostCalls;
-    answeredCalls = (answeredCalls === undefined) ? answeredCalls = 0 : answeredCalls;
-    queuedCalls = (queuedCalls === undefined) ? queuedCalls = 0 : queuedCalls;
+    lostCalls = (lostCalls === undefined) ? lostCalls = parseInt(0) : lostCalls;
+    answeredCalls = (answeredCalls === undefined) ? answeredCalls = parseInt(0) : answeredCalls;
+    queuedCalls = (queuedCalls === undefined) ? queuedCalls = parseInt(0) : queuedCalls;
 
     //Hace los calculos de las llamadas
     totalCalls = parseInt(answeredCalls) + parseInt(lostCalls);
@@ -80,7 +81,7 @@ class Agente {
 //Funcion para calcular promedios de llamadas
 function avgCalls(callType) {
     let avg = (callType * 100) / totalCalls;
-    return avg;
+    return avg || 0;
 }
 
 //Evento de click para encontrar Agente
