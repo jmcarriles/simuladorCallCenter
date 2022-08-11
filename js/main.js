@@ -1,39 +1,72 @@
+
 //Consulta si hay información en el localStorage y se lo asigna a el arreglo agentes o lo define como vacio en el caso de que sea undefined o null
 const agentes = JSON.parse(localStorage.getItem("agentes-lista")) ?? [];
-let totalCalls, lostCalls, answeredCalls, timeWait, avgLostCalls, avgAnsweredtCalls, queuedCalls;
+let totalCalls, timeWait, avgLostCalls, avgAnsweredtCalls;
 let avgWaitingCalls = 120;
 //Evento de click para calcular llamadas
 const btnCalcularLlamadas = document.querySelector('#btnCalcularLlamadas');
 btnCalcularLlamadas.addEventListener('click', (event) => {
-
     event.preventDefault();
     calcularLlamadas()
 });
 
 
-
 //Funcion validar llamadas
 
-function calcularLlamadas() {
+async function calcularLlamadas() {
 
-    answeredCalls = parseInt(prompt("Ingrese la cantidad de llamadas atendidas: "));
-    lostCalls = parseInt(prompt("Ingrese la cantidad de llamadas perdidas: "));
-    queuedCalls = parseInt(prompt("Ingrese la cantidad de llamadas en cola"));
-    alert('El tiempo promedio de una llamada en espera es de 120 segundos');
-    totalCalls = answeredCalls + lostCalls;
-    avgLostCalls = avgCalls(lostCalls);
-    avgAnsweredtCalls = avgCalls(answeredCalls);
-    timeWait = (queuedCalls * avgWaitingCalls) / 60
-    document.getElementById("totalCalls").innerHTML = totalCalls;
+    let { value: answeredCalls } = await Swal.fire({
+        input: 'number',
+        inputLabel: 'Llamadas Atendidas',
+        inputAttributes: {
+            'aria-label': 'Llamadas Atendidas',
+        },
+        showCancelButton: true
+    })
+
+    let { value: lostCalls } = await Swal.fire({
+        input: 'number',
+        inputLabel: 'Llamadas Perdidas',
+        inputAttributes: {
+            'aria-label': 'Llamadas Perdidas'
+        },
+        showCancelButton: true
+    })
+
+    let { value: queuedCalls } = await Swal.fire({
+        input: 'number',
+        inputLabel: 'Llamadas en cola',
+        inputPlaceholder: 'Llamadas en cola',
+        inputAttributes: {
+            'aria-label': 'Llamadas en cola'
+        },
+        showCancelButton: true
+    })
+
+    //Define en 0 todo parametro no cancelado
+    lostCalls = (lostCalls === undefined) ? lostCalls = 0 : lostCalls;
+    answeredCalls = (answeredCalls === undefined) ? answeredCalls = 0 : answeredCalls;
+    queuedCalls = (queuedCalls === undefined) ? queuedCalls = 0 : queuedCalls;
+
+    //Hace los calculos de las llamadas
+    totalCalls = parseInt(answeredCalls) + parseInt(lostCalls);
+    avgLostCalls = avgCalls(parseInt(lostCalls));
+    avgAnsweredtCalls = avgCalls(parseInt(answeredCalls));
+    timeWait = (parseInt(queuedCalls) * avgWaitingCalls) / 60;
+
+    //Escribe en el HTML
     document.getElementById("lostCalls").innerHTML = lostCalls;
     document.getElementById("answeredCalls").innerHTML = answeredCalls;
+    document.getElementById("totalCalls").innerHTML = totalCalls;
     document.getElementById("avgLostCalls").innerHTML = avgLostCalls.toFixed(2) + "% de llamadas perdidas";
     document.getElementById("avgAnsweredCalls").innerHTML = avgAnsweredtCalls.toFixed(2) + "% de llamadas atendidas";
     document.getElementById("queuedCalls").innerHTML = queuedCalls;
     document.getElementById("timeWait").innerHTML = "Tiempo de espera estimado " + timeWait + " minutos";
-    return totalCalls, answeredCalls, lostCalls;
+
 
 }
+
+
 
 //Funcion para crear el objeto Agente
 class Agente {
@@ -60,19 +93,32 @@ btnEncrontrarAgente.addEventListener('click', (event) => {
 
 
 //Funcion para encontrar agente por medio de el ID, utilizando la funcion de orden superior find
-function encontrarAgente() {
-    idAgente = parseInt(prompt('Por favor ingrese su numero de legajo'))
-    const nombreAgente = agentes.find(x => x.id === idAgente)
+async function encontrarAgente() {
+
+    let { value: idAgente } = await Swal.fire({
+        input: 'number',
+        inputLabel: 'Numero de legajo',
+        inputAttributes: {
+            'aria-label': 'Numero de legajo',
+        },
+        showCancelButton: true
+    }).then(idAgente => {
+        if (idAgente.value) {
+            return idAgente;
+        }
+    });
+
+    const nombreAgente = agentes.find(x => x.id === parseInt(idAgente))
 
     if (nombreAgente === undefined) {
-        return alert('No existe el agente solicitado')
+        return Swal.fire("No existe el legajo solicitado");
     }
 
     else if (nombreAgente.departamento === undefined) {
-        alert(nombreAgente.name + ' DEPARTAMENTO NO DEFINIDO');
+        Swal.fire(`Nombre: ${nombreAgente.name} Departamento: NO DEFINIDO`);
     }
     else {
-        return alert(nombreAgente.name + ' ' + nombreAgente.departamento);
+        Swal.fire(`Nombre: ${nombreAgente.name} Departamento: ${nombreAgente.departamento}`);
     }
 }
 
@@ -107,7 +153,7 @@ function agregarAgenteWeb() {
             localStorage.setItem("agentes-lista", JSON.stringify(agentes));
             alert('El agente se agrego al sistema')
             actualizarListaAgentes();
-            
+
         }
         else {
             alert('El legajo ya existe')
@@ -150,8 +196,8 @@ function actualizarListaAgentes() {
         listadoAgentes += `<div><b>Legajo:</b> ${agente.id} /////////////// <b>Nombre:</b> ${agente.name} /////////////// <b>Departamento:</b> ${agente.departamento}</div>`;
     });
     document.querySelector('#lista-agentes').innerHTML = listadoAgentes;
-    
-    
+
+
 }
 
 
@@ -164,11 +210,12 @@ btnMostrarOculatar.addEventListener('click', (event) => {
 
     if (displaylistadoAgentes.style.display === 'block') {
         displaylistadoAgentes.style.display = 'none';
-    } 
+    }
     else {
         displaylistadoAgentes.style.display = 'block';
     }
 });
+
 
 
 
