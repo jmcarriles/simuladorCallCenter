@@ -45,9 +45,9 @@ async function calcularLlamadas() {
     })
 
     //Define en 0 todo parametro no cancelado
-    lostCalls = (lostCalls === undefined) ? lostCalls = parseInt(0) : lostCalls;
-    answeredCalls = (answeredCalls === undefined) ? answeredCalls = parseInt(0) : answeredCalls;
-    queuedCalls = (queuedCalls === undefined) ? queuedCalls = parseInt(0) : queuedCalls;
+    lostCalls = (lostCalls === undefined || lostCalls === '') ? lostCalls = parseInt(0) : lostCalls;
+    answeredCalls = (answeredCalls === undefined || answeredCalls === '') ? answeredCalls = parseInt(0) : answeredCalls;
+    queuedCalls = (queuedCalls === undefined || queuedCalls === '') ? queuedCalls = parseInt(0) : queuedCalls;
 
     //Hace los calculos de las llamadas
     totalCalls = parseInt(answeredCalls) + parseInt(lostCalls);
