@@ -68,16 +68,6 @@ async function calcularLlamadas() {
 }
 
 
-
-//Funcion para crear el objeto Agente
-class Agente {
-    constructor(id, name, departamento) {
-        this.id = id;
-        this.name = name;
-        this.departamento = departamento;
-    }
-}
-
 //Funcion para calcular promedios de llamadas
 function avgCalls(callType) {
     let avg = (callType * 100) / totalCalls;
@@ -138,12 +128,12 @@ function agregarAgenteWeb() {
     const index = agentes.findIndex(object => object.id === nuevoAgente.id);
 
     if (nuevoAgente.name === null || nuevoAgente.name === '' || nuevoAgente.id === null || nuevoAgente.id === '') {
-        alert('Legajo o Nombre Incorrecto')
+        Swal.fire('Legajo o Nombre Incorrecto')
 
     }
 
     else if (isNaN(nuevoAgente.id) === true) {
-        alert('El numero de legajo puede ser solo numerico')
+        Swal.fire('El numero de legajo puede ser solo numerico')
     }
 
     else {
@@ -152,12 +142,12 @@ function agregarAgenteWeb() {
 
             agentes.push(nuevoAgente);
             localStorage.setItem("agentes-lista", JSON.stringify(agentes));
-            alert('El agente se agrego al sistema')
+            Swal.fire('El agente se agrego al sistema')
             actualizarListaAgentes();
 
         }
         else {
-            alert('El legajo ya existe')
+            Swal.fire('El legajo ya existe')
         }
 
     }
@@ -183,7 +173,7 @@ function agregarDepartamento() {
 
     else {
         agentes[index].departamento = (prompt('Por Favor ingrese el Departamento'))
-        alert('Departamento modificado')
+        Swal.fire('Departamento modificado')
         localStorage.setItem("agentes-lista", JSON.stringify(agentes));
         actualizarListaAgentes();
     }
