@@ -97,19 +97,32 @@ async function encontrarAgente() {
         if (idAgente.value) {
             return idAgente;
         }
-    });
+        else {
+            console.log('Seteando el ID a 0')
+            idAgente.value = 0;
+            return idAgente;
+        }
+    })
+    
 
-    const nombreAgente = agentes.find(x => x.id === parseInt(idAgente))
 
-    if (nombreAgente === undefined) {
-        return Swal.fire("No existe el legajo solicitado");
+
+    const nombreAgente = agentes.find(x => x.id == parseInt(idAgente))
+
+    if (nombreAgente === undefined || nombreAgente === '') {
+        return Swal.fire({ html: `<div id="card mt-5"> No existe el legajo solicitado <div/>` });
     }
 
     else if (nombreAgente.departamento === undefined) {
-        Swal.fire(`Nombre: ${nombreAgente.name} Departamento: NO DEFINIDO`);
+        Swal.fire({ html: `<div id="card" Nombre: ${nombreAgente.name} Departamento: NO DEFINIDO <div/>` });
     }
     else {
-        Swal.fire(`Nombre: ${nombreAgente.name} Departamento: ${nombreAgente.departamento}`);
+        Swal.fire({
+            html: `<div class='card text-center mt-5'>
+        <h6><b>Legajo: </b>${nombreAgente.id}</h6>
+        <h6><b>Nombre: </b> ${nombreAgente.name} </h6>
+        <h6><b>Departamento: </b> ${nombreAgente.departamento}</h6>
+        </div>` });
     }
 }
 
@@ -123,31 +136,57 @@ btnAgregarAgente.addEventListener('click', (event) => {
 
 
 //Funcion para agregar via web un objeto agente, que analiza si el ID del agente ya existe y en el caso de que no exista lo inserta.
-function agregarAgenteWeb() {
-    const nuevoAgente = { id: parseInt(prompt('Ingrese el numero de legajo')), name: prompt('Ingrese el nombre del agente'), departamento: prompt('Ingrese el departamento') };
-    const index = agentes.findIndex(object => object.id === nuevoAgente.id);
+async function agregarAgenteWeb() {
 
-    if (nuevoAgente.name === null || nuevoAgente.name === '' || nuevoAgente.id === null || nuevoAgente.id === '') {
-        Swal.fire('Legajo o Nombre Incorrecto')
 
-    }
+    let { value: id } = await Swal.fire({
+        input: 'number',
+        inputLabel: 'Por favor ingrese el legajo',
+        inputAttributes: {
+            'aria-label': 'Legajo',
+        },
+        showCancelButton: true
+    })
 
-    else if (isNaN(nuevoAgente.id) === true) {
-        Swal.fire('El numero de legajo puede ser solo numerico')
+    let { value: name } = await Swal.fire({
+        input: 'text',
+        inputLabel: 'Por favor ingrese el nombre',
+        inputAttributes: {
+            'aria-label': 'Nombre'
+        },
+        showCancelButton: true
+    })
+
+    let { value: departamento } = await Swal.fire({
+        input: 'text',
+        inputLabel: 'Ingrese el departamento',
+        inputPlaceholder: 'Departamento',
+        inputAttributes: {
+            'aria-label': 'Departamento'
+        },
+        showCancelButton: true
+    })
+    
+
+    const index = agentes.findIndex(object => object.id === id);
+
+    if (name === null || name === '' || id === null || id === '') {
+        Swal.fire({ html: `<div id="card mt-5"> Legajo incorrecto <div/>` })
+
     }
 
     else {
 
-        if (index === -1) {
-
-            agentes.push(nuevoAgente);
+        if (index == -1) {
+            Swal.fire({ html: `<div id="card mt-5">El agente se agrego al sistema <div/>`})
+            agentes.push({id, name, departamento});
             localStorage.setItem("agentes-lista", JSON.stringify(agentes));
-            Swal.fire('El agente se agrego al sistema')
-            actualizarListaAgentes();
+            
+            /* actualizarListaAgentes(); */
 
         }
         else {
-            Swal.fire('El legajo ya existe')
+            Swal.fire({ html: `<div id="card mt-5"> El legajo ya existe <div/>` })
         }
 
     }
@@ -163,19 +202,43 @@ btnDepartamento.addEventListener('click', (event) => {
 
 
 //Funcion que busca el array el objeto que tenga el id ingresado y le permite modificar / agregar el parametro 'Departamento' 
-function agregarDepartamento() {
-    const idBuscado = { id: parseInt(prompt('Ingrese el numero de legajo de la persona que quiere modificar el departamento')) }
-    const index = agentes.findIndex(object => object.id === idBuscado.id);
+async function agregarDepartamento() {
+    /* const idBuscado = { id: parseInt(prompt('Ingrese el numero de legajo de la persona que quiere modificar el departamento')) }
+    const index = agentes.findIndex(object => object.id === idBuscado.id); */
+    
+
+    let { value: id } = await Swal.fire({
+        input: 'number',
+        inputLabel: 'Legajo',
+        inputAttributes: {
+            'aria-label': 'Legajo',
+        },
+        showCancelButton: true
+    })
+    
+    const index = agentes.findIndex(object => object.id == id)
+
+    
 
     if (index === -1) {
-        alert('Legajo Inexistente')
+        Swal.fire({ html: `<div id="card mt-5"> Legajo Inexistente <div/>` })
     }
 
     else {
-        agentes[index].departamento = (prompt('Por Favor ingrese el Departamento'))
-        Swal.fire('Departamento modificado')
+
+        let { value: departament } = await Swal.fire({
+            input: 'text',
+            inputLabel: 'Ingrese el Departamento',
+            inputAttributes: {
+                'aria-label': 'Departamento',
+            },
+            showCancelButton: true
+        })
+
+        agentes[index].departamento = departament;
+        Swal.fire({ html: `<div id="card mt-5"> Departamento modificado <div/>` })
         localStorage.setItem("agentes-lista", JSON.stringify(agentes));
-        actualizarListaAgentes();
+        
     }
 }
 
@@ -184,10 +247,14 @@ function actualizarListaAgentes() {
     let listadoAgentes = '';
 
     agentes.forEach((agente) => {
-        listadoAgentes += `<div><b>Legajo:</b> ${agente.id} /////////////// <b>Nombre:</b> ${agente.name} /////////////// <b>Departamento:</b> ${agente.departamento}</div>`;
+        listadoAgentes += `<div class='card text-center'>
+        <h6><b>Legajo:</b>${agente.id}</h6>
+        <h6><b>Nombre:</b> ${agente.name} </h6>
+        <h6><b>Departamento:</b> ${agente.departamento}</h6>
+        </div>`;
     });
-    document.querySelector('#lista-agentes').innerHTML = listadoAgentes;
-
+    /* document.querySelector('#lista-agentes').innerHTML = listadoAgentes; */
+    Swal.fire({ html: listadoAgentes })
 
 }
 
@@ -206,7 +273,4 @@ btnMostrarOculatar.addEventListener('click', (event) => {
         displaylistadoAgentes.style.display = 'block';
     }
 });
-
-
-
 
