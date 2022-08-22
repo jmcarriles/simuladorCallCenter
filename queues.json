@@ -1,0 +1,5 @@
+[
+    {"id":"100", "name": "Ventas", "queuedCalls": "4", "lostCalls": "1", "anseweredCalls" :"100" },
+    {"id":"101", "name": "Soporte", "queuedCalls": "1", "lostCalls": "2", "anseweredCalls" :"60" },
+    {"id":"102", "name": "Administracion", "queuedCalls": "12", "lostCalls": "0", "anseweredCalls" :"2" }
+]

@@ -1,8 +1,8 @@
-
 //Consulta si hay información en el localStorage y se lo asigna a el arreglo agentes o lo define como vacio en el caso de que sea undefined o null
 const agentes = JSON.parse(localStorage.getItem("agentes-lista")) ?? [];
 let totalCalls, timeWait, avgLostCalls, avgAnsweredtCalls;
 let avgWaitingCalls = 120;
+let queues = [];
 
 //Evento de click para calcular llamadas
 const btnCalcularLlamadas = document.querySelector('#btnCalcularLlamadas');
@@ -88,7 +88,7 @@ async function encontrarAgente() {
 
     let { value: idAgente } = await Swal.fire({
         input: 'number',
-        inputLabel: 'Numero de legajo',
+        inputLabel: 'Por favor ingrese el legajo',
         inputAttributes: {
             'aria-label': 'Numero de legajo',
         },
@@ -103,9 +103,6 @@ async function encontrarAgente() {
             return idAgente;
         }
     })
-    
-
-
 
     const nombreAgente = agentes.find(x => x.id == parseInt(idAgente))
 
@@ -159,14 +156,14 @@ async function agregarAgenteWeb() {
 
     let { value: departamento } = await Swal.fire({
         input: 'text',
-        inputLabel: 'Ingrese el departamento',
+        inputLabel: 'Por favor ingrese el departamento',
         inputPlaceholder: 'Departamento',
         inputAttributes: {
             'aria-label': 'Departamento'
         },
         showCancelButton: true
     })
-    
+
 
     const index = agentes.findIndex(object => object.id === id);
 
@@ -178,10 +175,10 @@ async function agregarAgenteWeb() {
     else {
 
         if (index == -1) {
-            Swal.fire({ html: `<div id="card mt-5">El agente se agrego al sistema <div/>`})
-            agentes.push({id, name, departamento});
+            Swal.fire({ html: `<div id="card mt-5">El agente se agrego al sistema <div/>` })
+            agentes.push({ id, name, departamento });
             localStorage.setItem("agentes-lista", JSON.stringify(agentes));
-            
+
             /* actualizarListaAgentes(); */
 
         }
@@ -203,22 +200,20 @@ btnDepartamento.addEventListener('click', (event) => {
 
 //Funcion que busca el array el objeto que tenga el id ingresado y le permite modificar / agregar el parametro 'Departamento' 
 async function agregarDepartamento() {
-    /* const idBuscado = { id: parseInt(prompt('Ingrese el numero de legajo de la persona que quiere modificar el departamento')) }
-    const index = agentes.findIndex(object => object.id === idBuscado.id); */
-    
+
 
     let { value: id } = await Swal.fire({
         input: 'number',
-        inputLabel: 'Legajo',
+        inputLabel: 'Por favor ingrese el numero de legajo',
         inputAttributes: {
             'aria-label': 'Legajo',
         },
         showCancelButton: true
     })
-    
+
     const index = agentes.findIndex(object => object.id == id)
 
-    
+
 
     if (index === -1) {
         Swal.fire({ html: `<div id="card mt-5"> Legajo Inexistente <div/>` })
@@ -238,7 +233,7 @@ async function agregarDepartamento() {
         agentes[index].departamento = departament;
         Swal.fire({ html: `<div id="card mt-5"> Departamento modificado <div/>` })
         localStorage.setItem("agentes-lista", JSON.stringify(agentes));
-        
+
     }
 }
 
@@ -247,10 +242,10 @@ function actualizarListaAgentes() {
     let listadoAgentes = '';
 
     agentes.forEach((agente) => {
-        listadoAgentes += `<div class='card text-center'>
-        <h6><b>Legajo:</b>${agente.id}</h6>
-        <h6><b>Nombre:</b> ${agente.name} </h6>
-        <h6><b>Departamento:</b> ${agente.departamento}</h6>
+        listadoAgentes += `<div class='card text-center mt-5'>
+        <h6><b>Legajo: </b>${agente.id}</h6>
+        <h6><b>Nombre: </b> ${agente.name} </h6>
+        <h6><b>Departamento: </b>${agente.departamento}</h6>
         </div>`;
     });
     /* document.querySelector('#lista-agentes').innerHTML = listadoAgentes; */
@@ -258,19 +253,41 @@ function actualizarListaAgentes() {
 
 }
 
+const btnMostrarAgentes = document.querySelector('#btnMostrarAgentes');
 
-const btnMostrarOculatar = document.querySelector('#btnMostrarOculatar');
-
-btnMostrarOculatar.addEventListener('click', (event) => {
+btnMostrarAgentes.addEventListener('click', (event) => {
     event.preventDefault();
-    const displaylistadoAgentes = document.querySelector('#lista-agentes');
     actualizarListaAgentes()
 
-    if (displaylistadoAgentes.style.display === 'block') {
-        displaylistadoAgentes.style.display = 'none';
-    }
-    else {
-        displaylistadoAgentes.style.display = 'block';
-    }
 });
 
+//Funcion que consulta la "BD" del archivo JSON y la asigna a la variable queues
+async function consultaJSON() {
+
+    await fetch("./queues.json")
+        .then(response => response.json())
+        .then(jsondata => {
+
+
+            let tablaColas = ''
+            jsondata.forEach((queue) => {
+
+
+                tablaColas +=
+
+                `<tr>
+                    <th scope="row">${queue.id}</th>
+                    <td>${queue.name}</td>
+                    <td>${queue.anseweredCalls}</td>
+                    <td>${queue.lostCalls}</td>
+                    <td>${queue.queuedCalls}</td>
+                </tr>`
+
+                document.getElementById("tablaColas").innerHTML = tablaColas;
+            })
+            console.log(tablaColas)
+
+        })
+}
+
+consultaJSON()
