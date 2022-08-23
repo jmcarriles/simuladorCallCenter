@@ -268,10 +268,8 @@ async function consultaJSON() {
         .then(response => response.json())
         .then(jsondata => {
 
-
             let tablaColas = ''
             jsondata.forEach((queue) => {
-
 
                 tablaColas +=
 
@@ -284,6 +282,8 @@ async function consultaJSON() {
                 </tr>`
 
                 document.getElementById("tablaColas").innerHTML = tablaColas;
+
+                
             })
             console.log(tablaColas)
 
@@ -291,3 +291,4 @@ async function consultaJSON() {
 }
 
 consultaJSON()
+
