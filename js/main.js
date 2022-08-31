@@ -167,7 +167,7 @@ async function agregarAgenteWeb() {
 
     const index = agentes.findIndex(object => object.id === id);
 
-    if (name === null || name === '' || id === null || id === '') {
+    if (name === null || name === '' || id === null || id === '' || id === undefined) {
         Swal.fire({ html: `<div id="card mt-5"> Legajo incorrecto <div/>` })
 
     }
